@@ -65,20 +65,20 @@ jobs:
         - name: Read version
           run: |
             cat version
-            VERSION="$(<version)"
+            export VERSION="$(<version)"
             echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
     
         #Version Release
         - name: Del Previous Release
           run: |
-            gh release delete "continuous" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
+            gh release delete "${APP_VERSION:-continuous}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
           env:
             GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           continue-on-error: true
         - name: Continuous Releaser
           uses: softprops/action-gh-release@v2
           with:
-            name: "Version ${{ env.APP_VERSION}}"
+            name: "Build ${{ env.APP_VERSION}}"
             tag_name: "${{ env.APP_VERSION}}"
             prerelease: false
             draft: false
@@ -97,7 +97,7 @@ jobs:
         - name: Snapshot Releaser
           uses: softprops/action-gh-release@v2
           with:
-            name: "Snapshot build"
+            name: "Snapshot ${{ env.APP_VERSION}}"
             tag_name: "${{ env.SNAPSHOT_TAG}}"
             prerelease: true
             draft: false
