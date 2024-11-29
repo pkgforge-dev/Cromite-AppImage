@@ -32,12 +32,23 @@ jobs:
         mkdir dist
         mv *.AppImage* dist/
 
+    - name: Check version file
+      run: |
+       cat ~/version
+       echo "APP_VERSION=$(cat ~/version)" >> "${GITHUB_ENV}"
+    
     - name: Upload artifact
       uses: actions/upload-artifact@v4.4.3
       with:
         name: AppImage
         path: 'dist'
-
+        
+    - name: Upload version file
+      uses: actions/upload-artifact@v4.4.3
+      with:
+       name: version
+       path: ~/version
+    
   release:
       needs: [build]
       permissions: write-all
@@ -47,8 +58,17 @@ jobs:
         - uses: actions/download-artifact@v4.1.8
           with:
             name: AppImage
+        - uses: actions/download-artifact@v4.1.8
+          with:
+            name: version
 
-        #Continuous Release
+        - name: Read version
+          run: |
+            cat version
+            VERSION="$(<version)"
+            echo "APP_VERSION=${VERSION}" >> "${GITHUB_ENV}"
+    
+        #Version Release
         - name: Del Previous Release
           run: |
             gh release delete "continuous" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
@@ -58,8 +78,8 @@ jobs:
         - name: Continuous Releaser
           uses: softprops/action-gh-release@v2
           with:
-            name: "Continuous build"
-            tag_name: "continuous"
+            name: "Version ${{ env.APP_VERSION}}"
+            tag_name: "${{ env.APP_VERSION}}"
             prerelease: false
             draft: false
             generate_release_notes: false
