@@ -71,7 +71,7 @@ jobs:
         #Version Release
         - name: Del Previous Release
           run: |
-            gh release delete "${APP_VERSION:-continuous}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
+            gh release delete "${APP_VERSION}" --repo "${GITHUB_REPOSITORY}" --cleanup-tag  -y
           env:
             GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           continue-on-error: true
