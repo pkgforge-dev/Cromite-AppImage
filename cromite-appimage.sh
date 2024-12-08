@@ -36,7 +36,7 @@ chmod +x ./lib4bin
 ./lib4bin -p -v -s ./bin/chrome_*
 xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandbox
 
-find ./bin/__w -type f -exec mv -v {} ./shared/bin \;
+find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./shared/bin \; || true
 
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
