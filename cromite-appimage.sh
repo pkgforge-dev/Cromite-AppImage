@@ -38,6 +38,7 @@ xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com
 
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
+cp -vn /usr/lib/libgtk-*           ./shared/lib
 cp -vr /usr/lib/gtk-3.0            ./shared/lib
 cp -vr /usr/lib/gconv              ./shared/lib
 cp -vr /usr/lib/pkcs11             ./shared/lib
