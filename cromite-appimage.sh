@@ -36,9 +36,13 @@ chmod +x ./lib4bin
 ./lib4bin -p -v -s ./bin/chrome_*
 xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandbox
 
+find ./bin/__w -type f -exec mv -v {} ./shared/bin \;
+
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
-cp -vn /usr/lib/libgtk-*           ./shared/lib
+cp -vn /usr/lib/libfreeblpriv3.so  ./shared/lib
+cp -vn /usr/lib/libgtk*            ./shared/lib
+cp -vn /usr/lib/libgdk*            ./shared/lib
 cp -vr /usr/lib/gtk-3.0            ./shared/lib
 cp -vr /usr/lib/gconv              ./shared/lib
 cp -vr /usr/lib/pkcs11             ./shared/lib
@@ -49,7 +53,7 @@ cp -vr /usr/lib/dri                ./shared/lib
 ldd ./shared/lib/libsoftokn3.so \
 	./shared/lib/libLLVM* \
 	./shared/lib/libnss* \
-	./shared/lib/libgtk-*
+	./shared/lib/libgtk*
 	./shared/lib/libGL* 2>/dev/null \
 	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./lib
 
