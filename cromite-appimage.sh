@@ -34,6 +34,7 @@ ln -s ./shared ./usr
 wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 ./lib4bin -p -v -s ./bin/chrome_*
+./bin/chrome google.com
 xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com
 
 cp -vn /usr/lib/libwayland*        ./shared/lib
