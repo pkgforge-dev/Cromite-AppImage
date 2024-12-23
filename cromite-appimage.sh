@@ -40,6 +40,7 @@ find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
+cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
 cp -vn /usr/lib/libfreeblpriv3.so  ./shared/lib
 cp -vn /usr/lib/libgtk*            ./shared/lib
 cp -vn /usr/lib/libcloudproviders* ./shared/lib
