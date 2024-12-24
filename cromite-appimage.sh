@@ -39,6 +39,19 @@ xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandb
 find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 cp -vn /usr/lib/libpulse*          ./shared/lib
+cp -vn /usr/lib/libasyncns*        ./shared/lib
+cp -vn /usr/lib/libatkm*           ./shared/lib
+cp -vn /usr/lib/libcairo*          ./shared/lib
+cp -vn /usr/lib/libelogind*        ./shared/lib
+cp -vn /usr/lib/libepoxy*          ./shared/lib
+cp -vn /usr/lib/libFLAC*           ./shared/lib
+cp -vn /usr/lib/libgiom*           ./shared/lib
+cp -vn /usr/lib/libglibm*          ./shared/lib
+cp -vn /usr/lib/libmp3lame*        ./shared/lib
+cp -vn /usr/lib/libmpg123*         ./shared/lib
+cp -vn /usr/lib/libvorbis*         ./shared/lib
+cp -vn /usr/lib/libresolv.so.2     ./shared/lib
+cp -vn /usr/lib/libsigc-2.0.so.0   ./shared/lib
 cp -vn /usr/lib/libsndfile*        ./shared/lib
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
@@ -48,6 +61,7 @@ cp -vn /usr/lib/libgtk*            ./shared/lib
 cp -vn /usr/lib/libcloudproviders* ./shared/lib
 cp -vn /usr/lib/libGLX*            ./shared/lib
 cp -vn /usr/lib/libxcb-glx*        ./shared/lib
+cp -vn /usr/lib/libXcursor.so.1    ./shared/lib
 cp -vn /usr/lib/libXinerama*       ./shared/lib
 cp -vn /usr/lib/libgdk*            ./shared/lib
 cp -vr /usr/lib/gtk-3.0            ./shared/lib
@@ -64,8 +78,7 @@ ldd ./shared/lib/libsoftokn3.so \
 	./shared/lib/libnss* \
 	./shared/lib/libgtk* \
 	./shared/lib/libGL*
-	./shared/lib/libpulse* \
-	./shared/lib/pulseaudio/* 2>/dev/null \
+	./shared/lib/libpulse* 2>/dev/null \
 	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./lib
 
 # DEPLOY GDK
