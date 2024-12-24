@@ -50,6 +50,8 @@ cp -vn /usr/lib/libglibm*          ./shared/lib
 cp -vn /usr/lib/libmp3lame*        ./shared/lib
 cp -vn /usr/lib/libmpg123*         ./shared/lib
 cp -vn /usr/lib/libvorbis*         ./shared/lib
+cp -vn /usr/lib/libopus.so*        ./shared/lib
+cp -vn /usr/lib/libogg.so*         ./shared/lib
 cp -vn /usr/lib/libresolv.so.2     ./shared/lib
 cp -vn /usr/lib/libsigc-2.0.so.0   ./shared/lib
 cp -vn /usr/lib/libsndfile*        ./shared/lib
@@ -138,7 +140,7 @@ echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
 	--no-history --no-create-timestamp \
-	--compression zstd:level=22 -S21 -B16 \
+	--compression zstd:level=22 -S20 -B16 \
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
