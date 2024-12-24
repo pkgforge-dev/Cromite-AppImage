@@ -38,6 +38,8 @@ xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandb
 
 find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
+cp -vn /usr/lib/libpulse*          ./shared/lib
+cp -vn /usr/lib/libsndfile*        ./shared/lib
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
 cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
@@ -54,13 +56,16 @@ cp -vr /usr/lib/pkcs11             ./shared/lib
 cp -vr /usr/lib/gvfs               ./shared/lib
 cp -vr /usr/lib/gio                ./shared/lib
 cp -vr /usr/lib/dri                ./shared/lib
+cp -vr /usr/lib/pulseaudio         ./shared/lib
 
 ldd ./shared/lib/libsoftokn3.so \
 	./shared/lib/libwayland* \
 	./shared/lib/libLLVM* \
 	./shared/lib/libnss* \
 	./shared/lib/libgtk* \
-	./shared/lib/libGL* 2>/dev/null \
+	./shared/lib/libGL*
+	./shared/lib/libpulse* \
+	./shared/lib/pulseaudio/* 2>/dev/null \
 	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./lib
 
 # DEPLOY GDK
