@@ -39,22 +39,6 @@ xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandb
 find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 cp -vn /usr/lib/libpulse*          ./shared/lib
-#cp -vn /usr/lib/libasyncns*        ./shared/lib
-#cp -vn /usr/lib/libatkm*           ./shared/lib
-#cp -vn /usr/lib/libcairo*          ./shared/lib
-#cp -vn /usr/lib/libelogind*        ./shared/lib
-#cp -vn /usr/lib/libepoxy*          ./shared/lib
-#cp -vn /usr/lib/libFLAC*           ./shared/lib
-#cp -vn /usr/lib/libgiom*           ./shared/lib
-#cp -vn /usr/lib/libglibm*          ./shared/lib
-#cp -vn /usr/lib/libmp3lame*        ./shared/lib
-#cp -vn /usr/lib/libmpg123*         ./shared/lib
-#cp -vn /usr/lib/libvorbis*         ./shared/lib
-#cp -vn /usr/lib/libopus.so*        ./shared/lib
-#cp -vn /usr/lib/libogg.so*         ./shared/lib
-#cp -vn /usr/lib/libresolv.so.2     ./shared/lib
-#cp -vn /usr/lib/libsigc-2.0.so.0   ./shared/lib
-#cp -vn /usr/lib/libsndfile*        ./shared/lib
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
 cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
