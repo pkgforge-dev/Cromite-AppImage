@@ -39,6 +39,7 @@ xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandb
 find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 cp -vn /usr/lib/libpulse*          ./shared/lib
+cp -vn /usr/lib/libelogind.so*     ./shared/lib
 cp -vn /usr/lib/libwayland*        ./shared/lib
 cp -vn /usr/lib/libnss*            ./shared/lib
 cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
