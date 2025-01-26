@@ -33,55 +33,30 @@ ln -s ./shared ./usr
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
-./lib4bin -p -v -s ./bin/chrome_*
-xvfb-run -d -- ./lib4bin -p -v -r -s -e -k ./bin/chrome -- google.com --no-sandbox
+xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
+./lib4bin -p -v -s -k ./bin/chrome_* \
+	/usr/lib/libpulse* \
+	/usr/lib/libelogind.so* \
+	/usr/lib/libwayland* \
+	/usr/lib/libnss* \
+	/usr/lib/libsoftokn3.so \
+	/usr/lib/libfreeblpriv3.so \
+	/usr/lib/libgtk* \
+	/usr/lib/libcloudproviders* \
+	/usr/lib/libGLX* \
+	/usr/lib/libxcb-glx* \
+	/usr/lib/libXcursor.so.1 \
+	/usr/lib/libXinerama* \
+	/usr/lib/libgdk* \
+	/usr/lib/gdk-pixbuf-*/*/loaders/* \
+	/usr/lib/gconv/* \
+	/usr/lib/pkcs11/* \
+	/usr/lib/gvfs/* \
+	/usr/lib/gio/modules/* \
+	/usr/lib/dri/* \
+	/usr/lib/pulseaudio/* 
 
 find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
-
-cp -vn /usr/lib/libpulse*          ./shared/lib
-cp -vn /usr/lib/libelogind.so*     ./shared/lib
-cp -vn /usr/lib/libwayland*        ./shared/lib
-cp -vn /usr/lib/libnss*            ./shared/lib
-cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
-cp -vn /usr/lib/libfreeblpriv3.so  ./shared/lib
-cp -vn /usr/lib/libgtk*            ./shared/lib
-cp -vn /usr/lib/libcloudproviders* ./shared/lib
-cp -vn /usr/lib/libGLX*            ./shared/lib
-cp -vn /usr/lib/libxcb-glx*        ./shared/lib
-cp -vn /usr/lib/libXcursor.so.1    ./shared/lib
-cp -vn /usr/lib/libXinerama*       ./shared/lib
-cp -vn /usr/lib/libgdk*            ./shared/lib
-cp -vr /usr/lib/gtk-3.0            ./shared/lib
-cp -vr /usr/lib/gconv              ./shared/lib
-cp -vr /usr/lib/pkcs11             ./shared/lib
-cp -vr /usr/lib/gvfs               ./shared/lib
-cp -vr /usr/lib/gio                ./shared/lib
-cp -vr /usr/lib/dri                ./shared/lib
-cp -vr /usr/lib/pulseaudio         ./shared/lib
-
-ldd ./shared/lib/libsoftokn3.so \
-	./shared/lib/libwayland* \
-	./shared/lib/libLLVM* \
-	./shared/lib/libnss* \
-	./shared/lib/libgtk* \
-	./shared/lib/libGL* \
-	./shared/lib/libpulse* 2>/dev/null \
-	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./lib
-
-# DEPLOY GDK
-echo "Deploying gdk..."
-GDK_PATH="$(find /usr/lib -type d -regex ".*/gdk-pixbuf-2.0" -print -quit)"
-cp -rv "$GDK_PATH" ./shared/lib
-
-echo "Deploying gdk deps..."
-find ./bin/gdk-pixbuf-2.0 -type f -name '*.so*' -exec ldd {} \; \
-	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./shared/lib || true
-
-# Patch gdk and gtk .cache file
-find ./bin -type f -regex '.*gdk.*loaders.cache' \
-	-exec sed -i 's|/.*lib.*/gdk-pixbuf.*/.*/loaders/||g' {} \;
-find ./bin -type f -regex '.*gtk.*immodules.cache' \
-	-exec sed -i 's|/.*lib.*/gtk-.*/.*/immodules/||g' {} \;
 
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
