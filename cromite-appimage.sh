@@ -56,7 +56,7 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/dri/* \
 	/usr/lib/pulseaudio/* 
 
-find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
+#find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
