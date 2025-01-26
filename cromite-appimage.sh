@@ -55,7 +55,11 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/dri/* \
 	/usr/lib/pulseaudio/* 
 
-#find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
+rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
+ln ./sharun ./bin/chrome
+ln ./sharun ./bin/chrome_sandbox
+ln ./sharun ./bin/chrome_crashpad_handler
+find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
