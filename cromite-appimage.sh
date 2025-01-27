@@ -119,7 +119,7 @@ echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
 	--appbundle-id="${PACKAGE}-${VERSION}" \
 	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
-       #--compression zstd:level=22 -S20 -B16"
+        --compression "-C zstd:level=22 -S20 -B32"
 echo "Generating [sqfs]AppBundle..."
 ./pelf-sqfs --add-appdir ./AppDir \
 	     --appbundle-id="${PACKAGE}-${VERSION}" \
