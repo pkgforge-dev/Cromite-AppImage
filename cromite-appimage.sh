@@ -99,15 +99,13 @@ llvm-objcopy --update-section=.upd_info=data.upd_info \
 	--set-section-flags=.upd_info=noload,readonly ./uruntime
 printf 'AI\x02' | dd of=./uruntime bs=1 count=3 seek=8 conv=notrunc
 
-set -x
-
 echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
 	--no-history --no-create-timestamp \
 	--compression zstd:level=22 -S20 -B16 \
 	--header uruntime \
-	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage || true
+	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
  # Set up the PELF toolchain
  wget -qO ./pelf-toolchain.dwfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.dwfs.AppBundle"
@@ -130,7 +128,7 @@ echo "Generating [sqfs]AppBundle..."
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
 
-mv ./*.AppImage* ../
+mv ./*.AppBundle* ./*.AppImage* ../
 cd ..
 rm -rf ./"$PACKAGE"
 echo "All Done!"
