@@ -34,6 +34,7 @@ jobs:
         chmod +x ./*-appimage.sh && ./*-appimage.sh
         mkdir dist
         mv *.AppImage* dist/
+        mv *.AppBundle* dist/
 
     - name: Check version file
       run: |
@@ -43,7 +44,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4.4.3
       with:
-        name: AppImage
+        name: Cromite
         path: 'dist'
         
     - name: Upload version file
@@ -60,7 +61,7 @@ jobs:
       steps:
         - uses: actions/download-artifact@v4.1.8
           with:
-            name: AppImage
+            name: Cromite
         - uses: actions/download-artifact@v4.1.8
           with:
             name: version
@@ -81,7 +82,7 @@ jobs:
         - name: Continuous Releaser
           uses: softprops/action-gh-release@v2
           with:
-            name: "Cromite AppImage ${{ env.APP_VERSION}}"
+            name: "Cromite AppBundle && AppImage ${{ env.APP_VERSION}}"
             tag_name: "${{ env.APP_VERSION}}"
             prerelease: false
             draft: false
