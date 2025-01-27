@@ -112,6 +112,7 @@ echo "Generating AppImage..."
  chmod +x ./pelf-toolchain.sqfs.AppBundle
  ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
  ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
+export PBUNDLE_OVERTAKE_PATH=1
 
 # Generate Appbundles
 echo "Generating [dwfs]AppBundle..."
