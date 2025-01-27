@@ -107,6 +107,29 @@ echo "Generating AppImage..."
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
+ # Set up the PELF toolchain
+ wget -q "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.sqfs.AppBundle"
+ chmod +x ./pelf-toolchain.sqfs.AppBundle
+ ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
+ ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
+
+# Generate Appbundles
+echo "Generating [dwfs]AppBundle..."
+./pelf-dwfs --add-appdir ./AppDir \
+	--appbundle-id="${PACKAGE}-${VERSION}" \
+	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
+	--compress "-l7
+ 				--set-owner 0
+ 				--set-group 0
+	 			--no-history
+	 			--no-create-timestamp
+	 			--metadata-compression null"
+	 			#--compression zstd:level=22 -S20 -B16"
+echo "Generating [sqfs]AppBundle..."
+./pelf-sqfs --add-appdir ./AppDir \
+	--appbundle-id="${PACKAGE}-${VERSION}" \
+	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.sqfs.AppBundle"
+
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
 
