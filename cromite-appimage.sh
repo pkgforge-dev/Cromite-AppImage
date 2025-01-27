@@ -110,11 +110,11 @@ echo "Generating AppImage..."
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage || true
 
  # Set up the PELF toolchain
- wget -q "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.dwfs.AppBundle"
+ wget -qO ./pelf-toolchain.dwfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.dwfs.AppBundle"
  chmod +x ./pelf-toolchain.dwfs.AppBundle
  ln -sfT ./pelf-toolchain.dwfs.AppBundle ./pelf-dwfs
  ln -sfT ./pelf-toolchain.dwfs.AppBundle ./pelf-sqfs
-export PBUNDLE_OVERTAKE_PATH=1
+#export PBUNDLE_OVERTAKE_PATH=1
 
 # Generate Appbundles
 echo "Generating [dwfs]AppBundle..."
