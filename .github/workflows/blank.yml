@@ -109,4 +109,5 @@ jobs:
             make_latest: false
             files: |
               *.AppImage*
+              *.AppBundle*
           continue-on-error: false
