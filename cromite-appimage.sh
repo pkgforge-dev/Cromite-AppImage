@@ -120,14 +120,8 @@ echo "Generating AppImage..."
 echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
 	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
-	--compress "-l7
- 		    --set-owner 0
- 		    --set-group 0
-	 	    --no-history
-	 	    --no-create-timestamp
-	            --metadata-compression null"
-	 	   #--compression zstd:level=22 -S20 -B16"
+	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
+       #--compression zstd:level=22 -S20 -B16"
 echo "Generating [sqfs]AppBundle..."
 ./pelf-sqfs --add-appdir ./AppDir \
 	     --appbundle-id="${PACKAGE}-${VERSION}" \
