@@ -99,6 +99,8 @@ llvm-objcopy --update-section=.upd_info=data.upd_info \
 	--set-section-flags=.upd_info=noload,readonly ./uruntime
 printf 'AI\x02' | dd of=./uruntime bs=1 count=3 seek=8 conv=notrunc
 
+set -x
+
 echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
