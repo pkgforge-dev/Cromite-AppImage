@@ -12,7 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     permissions: write-all
-    container: artixlinux/artixlinux:latest
+    container:
+      image: artixlinux/artixlinux:latest
+      options: --privileged
     steps:
     - uses: actions/checkout@v4
 
