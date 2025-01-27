@@ -118,7 +118,7 @@ export PBUNDLE_OVERTAKE_PATH=1
 echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
 	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
+	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
         --compression "-C zstd:level=22 -S20 -B32"
 echo "Generating [sqfs]AppBundle..."
 ./pelf-sqfs --add-appdir ./AppDir \
