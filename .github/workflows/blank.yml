@@ -89,6 +89,7 @@ jobs:
             make_latest: true
             files: |
               *.AppImage*
+              *.AppBundle*
           continue-on-error: false
 
         #Snapshot Release
