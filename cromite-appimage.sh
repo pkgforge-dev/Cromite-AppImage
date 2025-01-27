@@ -117,13 +117,15 @@ export PBUNDLE_OVERTAKE_PATH=1
 # Generate Appbundles
 echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
-	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
-        --compression "-C zstd:level=22 -S20 -B32"
+	    --appbundle-id="${PACKAGE}-${VERSION}" \
+	    --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
+            --compression "-C zstd:level=22 -S20 -B32"
 echo "Generating [sqfs]AppBundle..."
 ./pelf-sqfs --add-appdir ./AppDir \
-	     --appbundle-id="${PACKAGE}-${VERSION}" \
-	     --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.sqfs.AppBundle"
+	    --appbundle-id="${PACKAGE}-${VERSION}" \
+	    --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.sqfs.AppBundle"
+
+rm ./pelf-toolchain.sqfs.AppBundle
 
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
