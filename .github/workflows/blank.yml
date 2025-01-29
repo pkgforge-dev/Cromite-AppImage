@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: build
+    - name: Get dependencies
       if: always()
       run: |
         sed -i 's/DownloadUser/#DownloadUser/g' /etc/pacman.conf
@@ -31,10 +31,19 @@ jobs:
           libxcb xcb-util-keysyms gvfs libepoxy highway libheif libjxl x265 \
           xcb-util-cursor gtkmm3 glu
 
-        chmod +x ./*-appimage.sh && ./*-appimage.sh
-        mkdir dist
-        mv *.AppImage* dist/
-        mv *.AppBundle* dist/
+    - name: Install debloated llvm-libs
+      run: |
+        LLVM="$(wget https://api.github.com/repos/Samueru-sama/llvm-libs-debloated/releases -O - \
+          | sed 's/[()",{} ]/\n/g' | grep -oi "https.*pkg.tar.zst$" | head -1)"
+        wget "$LLVM" -O ./llvm-libs.pkg.tar.zst
+        pacman -U --noconfirm ./llvm-libs.pkg.tar.zst
+        
+    - name: Make AppImage/AppBundle
+      run: |
+       chmod +x ./*-appimage.sh && ./*-appimage.sh
+       mkdir dist
+       mv *.AppImage* dist/
+       mv *.AppBundle* dist/
 
     - name: Check version file
       run: |
