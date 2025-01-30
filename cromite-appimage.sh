@@ -53,7 +53,8 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/gvfs/* \
 	/usr/lib/gio/modules/* \
 	/usr/lib/dri/* \
-	/usr/lib/pulseaudio/* 
+	/usr/lib/pulseaudio/* \
+	/usr/lib/alsa-lib/*
 
 rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
 ln ./sharun ./bin/chrome
