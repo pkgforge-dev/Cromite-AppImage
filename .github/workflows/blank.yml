@@ -29,7 +29,7 @@ jobs:
         printf "\n[extra]\nInclude = /etc/pacman.d/mirrorlist-arch\n" | tee -a /etc/pacman.conf
         pacman -Syu --noconfirm zsync nss chromium gtk3 wayland libva libtiff \
           libxcb xcb-util-keysyms gvfs libepoxy highway libheif libjxl x265 \
-          xcb-util-cursor gtkmm3 glu
+          xcb-util-cursor gtkmm3 glu pulseaudio-alsa
 
     - name: Install debloated llvm-libs
       run: |
