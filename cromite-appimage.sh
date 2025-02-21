@@ -67,17 +67,9 @@ find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 ln -s ../bin/chrome ./shared/bin/exe
 
 # Seems libgbm.so.1 is hardcoded to look into /usr/lib/gbm
-# Is there an env variable that can overwrite this instead? We will use ld-preload-open for now
-git clone https://github.com/fritzw/ld-preload-open.git
-(
-	cd ld-preload-open
-	make all
-	mv ./path-mapping.so ../
-)
-rm -rf ld-preload-open
-mv ./path-mapping.so ./lib
-echo 'path-mapping.so' > ./.preload
-echo 'PATH_MAPPING=/usr/lib/gbm:${SHARUN_DIR}/lib/gbm' >> ./.env
+# Is there an env variable that can overwrite this instead?
+sed -i 's|/usr|././|g' ./lib/libgbm.so*
+echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}' >> ./.env
 
 # DESKTOP AND ICON
 cat > "$PACKAGE".desktop << EOF
