@@ -121,6 +121,7 @@ ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
 ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
 export PBUNDLE_OVERTAKE_PATH=1
 
+set -x
 # Generate .sqfs.Appbundle
 echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
