@@ -115,7 +115,7 @@ echo "Generating AppImage..."
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
 # Set up the PELF toolchain
-wget -qO ./pelf-toolchain.sqfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.sqfs.AppBundle"
+wget -qO ./pelf-toolchain.sqfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/latest/download/pelf-toolchain.sqfs.AppBundle"
 chmod +x ./pelf-toolchain.sqfs.AppBundle
 ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
 ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
