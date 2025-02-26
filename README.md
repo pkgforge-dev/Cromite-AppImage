@@ -1,6 +1,6 @@
-# cromite-AppImage
+# Cromite-AppImage
 
-AppImage made using [sharun](https://github.com/VHSgunzo/sharun), which makes it extremely easy to turn any binary into a portable package without using containers or similar tricks (This one wasn't easy though). 
+AppImage made using [sharun](https://github.com/VHSgunzo/sharun), which makes it extremely easy to turn any binary into a portable package without using containers or similar tricks. 
 
 **This AppImage bundles everything and should work on any linux distro, even on musl based ones.**
 

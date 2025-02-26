@@ -2,8 +2,8 @@
 
 set -eu
 
-PACKAGE=cromite
-ICON="https://camo.githubusercontent.com/6b4ee03be91712db2d81b603a1bb83553e97b66fa49443bf27b641089ea51696/68747470733a2f2f7777772e63726f6d6974652e6f72672f6170705f69636f6e2e706e67"
+PACKAGE=Cromite
+ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
 
 CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 	https://api.github.com/repos/uazo/cromite/releases -O - \
@@ -12,8 +12,9 @@ CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
 export VERSION="$(echo "$CROMITE_URL" | awk -F'-|/' 'NR==1 {print $(NF-3)}')"
+echo "$VERSION" > ~/version
 
-UPINFO="gh-releases-zsync|$(echo $GITHUB_REPOSITORY | tr '/' '|')|latest|*$ARCH.AppImage.zsync"
+UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|latest|*$ARCH.AppImage.zsync"
 LIB4BIN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4bin"
 URUNTIME=$(wget -q --retry-connrefused --tries=30 \
 	https://api.github.com/repos/VHSgunzo/uruntime/releases -O - \
@@ -28,75 +29,47 @@ rm -f *.tar.*
 mv ./chrome-lin ./bin
 ln -s ../bin ./shared/lib
 ln -s ./shared ./usr
-ln -s ./usr/share ./share
 
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
-xvfb-run -d -- ./lib4bin -p -v -r -s -e ./bin/chrome*
+xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
+./lib4bin -p -v -s -k ./bin/chrome_* \
+	/usr/lib/libelogind.so* \
+	/usr/lib/libwayland* \
+	/usr/lib/libnss* \
+	/usr/lib/libsoftokn3.so \
+	/usr/lib/libfreeblpriv3.so \
+	/usr/lib/libgtk* \
+	/usr/lib/libcloudproviders* \
+	/usr/lib/libGLX* \
+	/usr/lib/libxcb-glx* \
+	/usr/lib/libXcursor.so.1 \
+	/usr/lib/libXinerama* \
+	/usr/lib/libgdk* \
+	/usr/lib/gdk-pixbuf-*/*/loaders/* \
+	/usr/lib/gconv/* \
+	/usr/lib/pkcs11/* \
+	/usr/lib/gvfs/* \
+	/usr/lib/gio/modules/* \
+	/usr/lib/dri/* \
+	/usr/lib/gbm/* \
+	/usr/lib/pulseaudio/* \
+	/usr/lib/alsa-lib/*
 
-cp -rv /usr/share/glvnd   ./usr/share
-cp -rv /usr/share/vulkan  ./usr/share
-cp -rv /usr/share/X11     ./usr/share
-sed -i 's|/usr/lib/||g'   ./usr/share/vulkan/icd.d/*
-
-# These libs are not found by strace mode for some reason
-# is cromite just not opening in the CI?
-cp -vn /usr/lib/libsoftokn3.so     ./shared/lib
-cp -vn /usr/lib/libhwy.so.1        ./shared/lib
-cp -vn /usr/lib/libheif.so.1       ./shared/lib
-cp -vn /usr/lib/libtiff.so*        ./shared/lib
-cp -vn /usr/lib/libcloudproviders* ./shared/lib
-cp -vn /usr/lib/libjbig.so*        ./shared/lib
-cp -vn /usr/lib/libjxl*            ./shared/lib
-cp -vn /usr/lib/libsharpyuv.so*    ./shared/lib
-cp -vn /usr/lib/libjpeg.so*        ./shared/lib
-cp -vn /usr/lib/libva-drm*         ./shared/lib
-cp -vn /usr/lib/libva.so*          ./shared/lib
-cp -vn /usr/lib/libGL*             ./shared/lib
-cp -vn /usr/lib/libnss*            ./shared/lib
-cp -vn /usr/lib/libfreeblpriv3.so  ./shared/lib
-cp -vn /usr/lib/libepoxy.so*       ./shared/lib
-cp -vn /usr/lib/libresolv.so*      ./shared/lib
-cp -vn /usr/lib/libsqlite3.so*     ./shared/lib
-cp -vn /usr/lib/libgtk-*           ./shared/lib
-cp -vn /usr/lib/libgdk*            ./shared/lib
-cp -vn /usr/lib/libcairo-go*       ./shared/lib
-cp -vn /usr/lib/libpango*          ./shared/lib
-cp -vn /usr/lib/libXcursor.so*     ./shared/lib
-cp -vn /usr/lib/libXinerama.so*    ./shared/lib
-cp -vn /usr/lib/libXxf86vm.so*     ./shared/lib
-cp -vn /usr/lib/libwayland*        ./shared/lib
-cp -vn /usr/lib/libx265.so*        ./shared/lib
-cp -vn /usr/lib/libxcb-*           ./shared/lib
-cp -vn /usr/lib/libpci.so*         ./shared/lib
-cp -vn /usr/lib/libvulkan*         ./shared/lib
-cp -vr /usr/lib/pkcs11             ./shared/lib
-cp -vr /usr/lib/gconv              ./shared/lib
-cp -vr /usr/lib/gvfs               ./shared/lib
-cp -vr /usr/lib/gio                ./shared/lib
-cp -vr /usr/lib/dri                ./shared/lib
-
-ldd ./shared/lib/libsoftokn3.so \
-	./shared/lib/libnss* \
-	./shared/lib/libgtk-*
-	./shared/lib/libGL* 2>/dev/null \
-	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./lib
-
-# DEPLOY GDK
-echo "Deploying gdk..."
-GDK_PATH="$(find /usr/lib -type d -regex ".*/gdk-pixbuf-2.0" -print -quit)"
-cp -rv "$GDK_PATH" ./shared/lib
-
-echo "Deploying gdk deps..."
-find ./shared/lib/gdk-pixbuf-2.0 -type f -name '*.so*' -exec ldd {} \; \
-	| awk -F"[> ]" '{print $4}' | xargs -I {} cp -vn {} ./shared/lib || true
-
-find ./shared/lib -type f -regex '.*gdk.*loaders.cache' \
-	-exec sed -i 's|/.*lib.*/gdk-pixbuf.*/.*/loaders/||g' {} \;
+rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
+ln ./sharun ./bin/chrome
+ln ./sharun ./bin/chrome_sandbox
+ln ./sharun ./bin/chrome_crashpad_handler
+find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
+
+# Seems libgbm.so.1 is hardcoded to look into /usr/lib/gbm
+# Is there an env variable that can overwrite this instead?
+sed -i 's|/usr|././|g' ./lib/libgbm.so*
+echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}' >> ./.env
 
 # DESKTOP AND ICON
 cat > "$PACKAGE".desktop << EOF
@@ -107,6 +80,7 @@ Name=$PACKAGE
 Exec=chrome %U
 Terminal=false
 Icon=$PACKAGE
+StartupWMClass=Chromium-browser
 Type=Application
 Categories=Application;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;
@@ -136,14 +110,30 @@ echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
 	--no-history --no-create-timestamp \
-	--compression zstd:level=22 -S21 -B16 \
+	--compression zstd:level=22 -S20 -B16 \
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
+# Set up the PELF toolchain
+wget -qO ./pelf-toolchain.sqfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/download/master/pelf-toolchain.sqfs.AppBundle"
+chmod +x ./pelf-toolchain.sqfs.AppBundle
+ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
+ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
+export PBUNDLE_OVERTAKE_PATH=1
+
+# Generate .sqfs.Appbundle
+echo "Generating [dwfs]AppBundle..."
+./pelf-dwfs --add-appdir ./AppDir \
+	    --appbundle-id="${PACKAGE}-${VERSION}" \
+	    --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
+
+rm ./pelf-toolchain.sqfs.AppBundle
+
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
+zsyncmake *.AppBundle -u *.AppBundle
 
-mv ./*.AppImage* ../
+mv ./*.AppBundle* ./*.AppImage* ../
 cd ..
 rm -rf ./"$PACKAGE"
 echo "All Done!"
