@@ -126,6 +126,7 @@ set -x
 echo "Generating [dwfs]AppBundle..."
 ./pelf-dwfs --add-appdir ./AppDir \
 	    --appbundle-id="${PACKAGE}-${VERSION}" \
+     	    --custom-runtime="\$SELF_TEMPDIR/bin/appbundle-runtime" \
 	    --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
 
 rm ./pelf-toolchain.sqfs.AppBundle
