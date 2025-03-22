@@ -118,20 +118,13 @@ echo "Generating AppImage..."
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
 # Set up the PELF toolchain
-wget -qO ./pelf-toolchain.sqfs.AppBundle "https://github.com/pkgforge-dev/pelf/releases/latest/download/pelf-toolchain.sqfs.AppBundle"
-chmod +x ./pelf-toolchain.sqfs.AppBundle
-ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-dwfs
-ln -sfT ./pelf-toolchain.sqfs.AppBundle ./pelf-sqfs
-export PBUNDLE_OVERTAKE_PATH=1
-
-# Generate .sqfs.Appbundle
-echo "Generating [dwfs]AppBundle..."
-./pelf-dwfs --add-appdir ./AppDir \
-	    --appbundle-id="${PACKAGE}-${VERSION}" \
-     	    --custom-runtime="\$SELF_TEMPDIR/bin/appbundle-runtime" \
-	    --output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
-
-rm ./pelf-toolchain.sqfs.AppBundle
+wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(uname -m)" && chmod +x ./pelf
+echo "Generating [dwfs]AppBundle...(Go runtime)"
+./pelf --add-appdir ./AppDir \
+	--appbundle-id="${PACKAGE}-${VERSION}" \
+	--compression "-C zstd:level=22 -S24 -B64" \
+	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
+	--disable-use-random-workdir # speeds up launch time
 
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage

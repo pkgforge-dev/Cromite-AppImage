@@ -14,7 +14,6 @@ jobs:
     permissions: write-all
     container:
       image: artixlinux/artixlinux:latest
-      options: --privileged
     steps:
     - uses: actions/checkout@v4
 
@@ -22,7 +21,7 @@ jobs:
       if: always()
       run: |
         sed -i 's/DownloadUser/#DownloadUser/g' /etc/pacman.conf
-        pacman -Syu --noconfirm fuse2 fuse3 base-devel strace patchelf curl wget \
+        pacman -Syu --noconfirm base-devel strace patchelf curl wget \
           desktop-file-utils git artix-archlinux-support llvm mesa xorg-server-xvfb \
           vulkan-radeon vulkan-intel vulkan-nouveau
         pacman-key --init && pacman-key --populate archlinux
