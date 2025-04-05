@@ -5,9 +5,9 @@ set -eu
 PACKAGE=Cromite
 ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
 
-CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
-	https://api.github.com/repos/uazo/cromite/releases -O - \
-	| sed 's/[()",{} ]/\n/g' | grep -oi "https.*-lin64.tar.gz$" | head -1)
+# /latest just download lastest stable version, NOT alpha or beta or dev or rc or etc
+CROMITE_URL=$(curl -ksL 'https://api.github.com/repos/uazo/cromite/releases/latest' \
+	| jq -r '.assets[] | select(.name | contains("lin64")) .browser_download_url')
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
@@ -16,9 +16,8 @@ echo "$VERSION" > ~/version
 
 UPINFO="gh-releases-zsync|$(echo "$GITHUB_REPOSITORY" | tr '/' '|')|latest|*$ARCH.AppImage.zsync"
 LIB4BIN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4bin"
-URUNTIME=$(wget -q --retry-connrefused --tries=30 \
-	https://api.github.com/repos/VHSgunzo/uruntime/releases -O - \
-	| sed 's/[()",{} ]/\n/g' | grep -oi "https.*appimage.*dwarfs.*$ARCH$" | head -1)
+URUNTIME=$(curl -ksL 'https://api.github.com/repos/VHSgunzo/uruntime/releases/latest' \
+	| jq -r '.assets[] | select(.name | contains("appimage-dwarfs-x86_64")) .browser_download_url')
 
 # Prepare AppDir
 mkdir -p ./"$PACKAGE"/AppDir/shared
