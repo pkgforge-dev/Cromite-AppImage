@@ -22,7 +22,8 @@ URUNTIME=$(curl -ksL 'https://api.github.com/repos/VHSgunzo/uruntime/releases/la
 # Prepare AppDir
 mkdir -p ./"$PACKAGE"/AppDir/shared
 cd ./"$PACKAGE"/AppDir
-wget --retry-connrefused --tries=30 "$CROMITE_URL"
+echo "Downloading ${CROMITE_URL##*/} ..."
+wget -q --retry-connrefused --tries=30 "$CROMITE_URL"
 tar xvf *.tar.*
 rm -f *.tar.*
 mv ./chrome-lin ./bin
@@ -30,9 +31,10 @@ ln -s ../bin ./shared/lib
 ln -s ./shared ./usr
 
 # DEPLOY ALL LIBS
-wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
+echo "Downloading ${LIB4BIN##*/} ..."
+wget -q --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
-xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
+xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox >/dev/null 2>&1
 ./lib4bin -p -v -s -k ./bin/chrome_* \
 	/usr/lib/libelogind.so* \
 	/usr/lib/libwayland* \
@@ -54,7 +56,7 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/dri/* \
 	/usr/lib/gbm/* \
 	/usr/lib/pulseaudio/* \
-	/usr/lib/alsa-lib/*
+	/usr/lib/alsa-lib/* >/dev/null 2>&1
 
 rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
 ln ./sharun ./bin/chrome
@@ -85,7 +87,8 @@ Categories=Application;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;
 EOF
 
-wget --retry-connrefused --tries=30 "$ICON" -O "$PACKAGE".png
+echo "Downloading ${ICON##*/} ..."
+wget -q --retry-connrefused --tries=30 "$ICON" -O "$PACKAGE".png
 ln -s ./"$PACKAGE".png ./.DirIcon
 
 # Prepare sharun
@@ -95,6 +98,7 @@ ln -s ./bin/chrome ./AppRun
 
 # MAKE APPIMAGE WITH URUNTIME
 cd ..
+echo "Downloading ${URUNTIME##*/} ..."
 wget -q "$URUNTIME" -O ./uruntime
 chmod +x ./uruntime
 
