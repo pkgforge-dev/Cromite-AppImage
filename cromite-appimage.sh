@@ -116,7 +116,7 @@ echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
 	--no-history --no-create-timestamp \
-	--compression zstd:level=22 -S26 -B32 \
+	--compression zstd:level=5 -S26 -B32 \
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
@@ -125,7 +125,7 @@ wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(
 echo "Generating [dwfs]AppBundle...(Go runtime)"
 ./pelf --add-appdir ./AppDir \
 	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--compression "-C zstd:level=22 -S24 -B64" \
+	--compression "-C zstd:level=5 -S24 -B64" \
 	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
 	--disable-use-random-workdir # speeds up launch time
 
