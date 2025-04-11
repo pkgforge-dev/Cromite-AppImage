@@ -66,10 +66,8 @@ find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
 
-# Seems libgbm.so.1 is hardcoded to look into /usr/lib/gbm
-# Is there an env variable that can overwrite this instead?
-sed -i 's|/usr|././|g' ./lib/libgbm.so*
-echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}' >> ./.env
+# sharun doesn't set GBM_BACKENDS_PATH yet
+echo 'GBM_BACKENDS_PATH=${SHARUN_DIR}/lib/gbm' >> ./.env
 
 # DESKTOP AND ICON
 cat > "$PACKAGE".desktop << EOF
@@ -113,7 +111,7 @@ echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
 	--set-owner 0 --set-group 0 \
 	--no-history --no-create-timestamp \
-	--compression zstd:level=22 -S26 -B32 \
+	--compression zstd:level=22 -S26 -B8 \
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
@@ -122,7 +120,7 @@ wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(
 echo "Generating [dwfs]AppBundle...(Go runtime)"
 ./pelf --add-appdir ./AppDir \
 	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--compression "-C zstd:level=22 -S24 -B64" \
+	--compression "-C zstd:level=22 -S26 -B8" \
 	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
 	--disable-use-random-workdir # speeds up launch time
 
