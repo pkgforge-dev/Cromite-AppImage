@@ -64,9 +64,6 @@ find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
 
-# sharun doesn't set GBM_BACKENDS_PATH yet
-echo 'GBM_BACKENDS_PATH=${SHARUN_DIR}/lib/gbm' >> ./.env
-
 # DESKTOP AND ICON
 cat > "$PACKAGE".desktop << EOF
 [Desktop Entry]
