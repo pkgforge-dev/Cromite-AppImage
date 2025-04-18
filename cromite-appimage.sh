@@ -97,10 +97,7 @@ sed -i 's|URUNTIME_MOUNT=[0-9]|URUNTIME_MOUNT=0|' ./uruntime
 
 #Add udpate info to runtime
 echo "Adding update information \"$UPINFO\" to runtime..."
-printf "$UPINFO" > data.upd_info
-llvm-objcopy --update-section=.upd_info=data.upd_info \
-	--set-section-flags=.upd_info=noload,readonly ./uruntime
-printf 'AI\x02' | dd of=./uruntime bs=1 count=3 seek=8 conv=notrunc
+./uruntime --appimage-addupdinfo "$UPINFO"
 
 echo "Generating AppImage..."
 ./uruntime --appimage-mkdwarfs -f \
