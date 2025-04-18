@@ -10,39 +10,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    permissions: write-all
-    container:
-      image: artixlinux/artixlinux:latest
+    runs-on: ubuntu-latest
+    container: ghcr.io/pkgforge-dev/archlinux:latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
 
     - name: Get dependencies
       if: always()
       run: |
-        sed -i 's/DownloadUser/#DownloadUser/g' /etc/pacman.conf
-        pacman -Syu --noconfirm base-devel strace patchelf curl wget \
-          desktop-file-utils git artix-archlinux-support llvm mesa xorg-server-xvfb \
-          vulkan-radeon vulkan-intel vulkan-nouveau
-        pacman-key --init && pacman-key --populate archlinux
-        printf "\n[extra]\nInclude = /etc/pacman.d/mirrorlist-arch\n" | tee -a /etc/pacman.conf
-        pacman -Syu --noconfirm zsync nss chromium gtk3 wayland libva libtiff \
-          libxcb xcb-util-keysyms gvfs libepoxy highway libheif libjxl x265 \
-          xcb-util-cursor gtkmm3 glu pulseaudio-alsa
-
-    - name: Install debloated llvm-libs
-      run: |
-        LLVM_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/llvm-libs-nano-x86_64.pkg.tar.zst"
-        wget --retry-connrefused --tries=30 "$LLVM_URL" -O ./llvm-libs.pkg.tar.zst
-        pacman -U --noconfirm ./llvm-libs.pkg.tar.zst
-        rm -f ./llvm-libs.pkg.tar.zst
-
-    - name: Install iculess libxml2
-      run: |
-        LIBXML_URL="https://github.com/pkgforge-dev/llvm-libs-debloated/releases/download/continuous/libxml2-iculess-x86_64.pkg.tar.zst"
-        wget --retry-connrefused --tries=30 "$LIBXML_URL" -O ./libxml2-iculess.pkg.tar.zst
-        pacman -U --noconfirm ./libxml2-iculess.pkg.tar.zst
-        rm -f ./libxml2-iculess.pkg.tar.zst
+        chmod +x ./get-dependencies.sh && ./get-dependencies.sh
         
     - name: Make AppImage/AppBundle
       run: |
