@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 PACKAGE=Cromite
 ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
@@ -33,6 +33,10 @@ wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
+	/usr/lib/lib*GL* \
+	/usr/lib/libxcb-* \
+	/usr/lib/dri/* \
+	/usr/lib/gbm/* \
 	/usr/lib/libelogind.so* \
 	/usr/lib/libwayland* \
 	/usr/lib/libnss* \
@@ -40,8 +44,6 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/libfreeblpriv3.so \
 	/usr/lib/libgtk* \
 	/usr/lib/libcloudproviders* \
-	/usr/lib/libGLX* \
-	/usr/lib/libxcb-glx* \
 	/usr/lib/libXcursor.so.1 \
 	/usr/lib/libXinerama* \
 	/usr/lib/libgdk* \
@@ -50,8 +52,6 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/pkcs11/* \
 	/usr/lib/gvfs/* \
 	/usr/lib/gio/modules/* \
-	/usr/lib/dri/* \
-	/usr/lib/gbm/* \
 	/usr/lib/pulseaudio/* \
 	/usr/lib/alsa-lib/*
 
@@ -107,18 +107,19 @@ echo "Generating AppImage..."
 	--header uruntime \
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
+touch dummy.AppBundle
 # Set up the PELF toolchain
-wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(uname -m)" && chmod +x ./pelf
-echo "Generating [dwfs]AppBundle...(Go runtime)"
-./pelf --add-appdir ./AppDir \
-	--appbundle-id="${PACKAGE}-${VERSION}" \
-	--compression "-C zstd:level=22 -S26 -B8" \
-	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
-	--disable-use-random-workdir # speeds up launch time
+#wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(uname -m)" && chmod +x ./pelf
+#echo "Generating [dwfs]AppBundle...(Go runtime)"
+#./pelf --add-appdir ./AppDir \
+#	--appbundle-id="${PACKAGE}-${VERSION}" \
+#	--compression "-C zstd:level=22 -S26 -B8" \
+#	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
+#	--disable-use-random-workdir # speeds up launch time
 
-echo "Generating zsync file..."
+#echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
-zsyncmake *.AppBundle -u *.AppBundle
+#zsyncmake *.AppBundle -u *.AppBundle
 
 mv ./*.AppBundle* ./*.AppImage* ../
 cd ..
