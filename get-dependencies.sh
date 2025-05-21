@@ -56,6 +56,7 @@ pacman -Syu --noconfirm \
 	x265 \
 	xcb-util-cursor \
 	xcb-util-keysyms \
+	xcb-util-wm \
 	xorg-server-xvfb \
 	zsync
 
