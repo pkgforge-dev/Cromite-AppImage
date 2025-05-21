@@ -33,9 +33,9 @@ chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
 	/usr/lib/lib*GL* \
-	/usr/lib/libxcb-* \
 	/usr/lib/dri/* \
-	/usr/lib/gbm/* \
+	/usr/lib/vdpau/* \
+	/usr/lib/libxcb-* \
 	/usr/lib/libelogind.so* \
 	/usr/lib/libwayland* \
 	/usr/lib/libnss* \
