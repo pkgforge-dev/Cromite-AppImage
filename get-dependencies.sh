@@ -38,6 +38,7 @@ pacman -Syu --noconfirm \
 	libepoxy \
 	libheif \
 	libjxl \
+	libsm \
 	libtiff \
 	libva \
 	libxcb \
