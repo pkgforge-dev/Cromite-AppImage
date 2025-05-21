@@ -44,6 +44,7 @@ pacman -Syu --noconfirm \
 	mesa \
 	nss \
 	patchelf \
+	pipewire-audio \
 	pulseaudio-alsa \
 	strace \
 	vulkan-intel \
