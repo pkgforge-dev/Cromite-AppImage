@@ -77,7 +77,7 @@ else
 	wget --retry-connrefused --tries=30 "$Vk_BROADCOM_URL"  -O ./vulkan-broadcom.pkg.tar.zst
 fi
 
-pacman -U --noconfirm ./*.pkg.tar.zst
+#pacman -U --noconfirm ./*.pkg.tar.zst
 rm -f ./*.pkg.tar.zst
 
 echo "All done!"
