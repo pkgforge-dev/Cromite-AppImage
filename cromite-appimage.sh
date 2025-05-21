@@ -54,6 +54,9 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/pulseaudio/* \
 	/usr/lib/alsa-lib/*
 
+# strip cromite bundled libs
+strip -s -R .comment --strip-unneeded ./bin/lib*
+
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
 
