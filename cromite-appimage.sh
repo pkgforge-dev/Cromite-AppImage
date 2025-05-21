@@ -33,6 +33,9 @@ wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
+	/usr/lib/lib*GL* \
+	/usr/lib/libxcb-gl* \
+	/usr/lib/dri/* \
 	/usr/lib/libelogind.so* \
 	/usr/lib/libwayland* \
 	/usr/lib/libnss* \
@@ -40,8 +43,6 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/libfreeblpriv3.so \
 	/usr/lib/libgtk* \
 	/usr/lib/libcloudproviders* \
-	/usr/lib/libGLX* \
-	/usr/lib/libxcb-glx* \
 	/usr/lib/libXcursor.so.1 \
 	/usr/lib/libXinerama* \
 	/usr/lib/libgdk* \
@@ -50,9 +51,9 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/pkcs11/* \
 	/usr/lib/gvfs/* \
 	/usr/lib/gio/modules/* \
-	/usr/lib/dri/* \
-	/usr/lib/gbm/* \
 	/usr/lib/pulseaudio/* \
+	/usr/lib/pipewire-*/* \
+	/usr/lib/spa-*/*/* \
 	/usr/lib/alsa-lib/*
 
 rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
