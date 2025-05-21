@@ -33,7 +33,7 @@ wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
-	/usr/lib/lib*GL* \
+	/usr/lib/libGL* \
 	/usr/lib/libxcb-gl* \
 	/usr/lib/dri/* \
 	/usr/lib/libelogind.so* \
