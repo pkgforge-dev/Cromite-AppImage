@@ -49,6 +49,7 @@ pacman -Syu --noconfirm \
 	pulseaudio-alsa \
 	strace \
 	vulkan-intel \
+	vulkan-mesa-layers \
 	vulkan-nouveau \
 	vulkan-radeon \
 	wayland \
@@ -56,6 +57,7 @@ pacman -Syu --noconfirm \
 	x265 \
 	xcb-util-cursor \
 	xcb-util-keysyms \
+	xcb-util-wm \
 	xorg-server-xvfb \
 	zsync
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 PACKAGE=Cromite
 ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
@@ -19,47 +19,45 @@ LIB4BIN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4b
 URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime-appimage-dwarfs-$ARCH"
 
 # Prepare AppDir
-mkdir -p ./"$PACKAGE"/AppDir/shared
-cd ./"$PACKAGE"/AppDir
+mkdir -p ./AppDir
+cd ./AppDir
+
 wget --retry-connrefused --tries=30 "$CROMITE_URL"
-tar xvf *.tar.*
-rm -f *.tar.*
+tar xvf ./*.tar.*
+rm -f ./*.tar.*
 mv ./chrome-lin ./bin
-ln -s ../bin ./shared/lib
-ln -s ./shared ./usr
 
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
+	/usr/lib/lib*GL* \
+	/usr/lib/libvulkan* \
+	/usr/lib/libVkLayer* \
+	/usr/lib/dri/* \
+	/usr/lib/vdpau/* \
+	/usr/lib/libxcb-* \
 	/usr/lib/libelogind.so* \
 	/usr/lib/libwayland* \
 	/usr/lib/libnss* \
 	/usr/lib/libsoftokn3.so \
 	/usr/lib/libfreeblpriv3.so \
 	/usr/lib/libgtk* \
-	/usr/lib/libcloudproviders* \
-	/usr/lib/libGLX* \
-	/usr/lib/libxcb-glx* \
-	/usr/lib/libXcursor.so.1 \
-	/usr/lib/libXinerama* \
 	/usr/lib/libgdk* \
 	/usr/lib/gdk-pixbuf-*/*/loaders/* \
+	/usr/lib/libcloudproviders* \
+	/usr/lib/libXcursor.so.1 \
+	/usr/lib/libXinerama* \
 	/usr/lib/gconv/* \
 	/usr/lib/pkcs11/* \
 	/usr/lib/gvfs/* \
 	/usr/lib/gio/modules/* \
-	/usr/lib/dri/* \
-	/usr/lib/gbm/* \
 	/usr/lib/pulseaudio/* \
 	/usr/lib/alsa-lib/*
 
-rm -f ./bin/chrome ./bin/chrome_sandbox ./bin/chrome_crashpad_handler
-ln ./sharun ./bin/chrome
-ln ./sharun ./bin/chrome_sandbox
-ln ./sharun ./bin/chrome_crashpad_handler
-find ./bin/*/*/*/*/* -type f -name '*.so*' -exec mv -v {} ./bin \; || true
+# strip cromite bundled libs
+strip -s -R .comment --strip-unneeded ./bin/lib*
 
 # Weird
 ln -s ../bin/chrome ./shared/bin/exe
@@ -92,7 +90,7 @@ cd ..
 wget -q "$URUNTIME" -O ./uruntime
 chmod +x ./uruntime
 
-# Keep the mount point (speeds up launch time) 
+# Keep the mount point (speeds up launch time)
 sed -i 's|URUNTIME_MOUNT=[0-9]|URUNTIME_MOUNT=0|' ./uruntime
 
 #Add udpate info to runtime
@@ -108,19 +106,18 @@ echo "Generating AppImage..."
 	-i ./AppDir -o "$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
 
 # Set up the PELF toolchain
-wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$(uname -m)" && chmod +x ./pelf
+wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$ARCH"
+chmod +x ./pelf
+
 echo "Generating [dwfs]AppBundle...(Go runtime)"
 ./pelf --add-appdir ./AppDir \
-	--appbundle-id="${PACKAGE}-${VERSION}" \
+	--appbundle-id="$PACKAGE-$VERSION" \
 	--compression "-C zstd:level=22 -S26 -B8" \
-	--output-to "${PACKAGE}-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle" \
+	--output-to "$PACKAGE-$VERSION-anylinux-$ARCH.dwfs.AppBundle" \
 	--disable-use-random-workdir # speeds up launch time
 
 echo "Generating zsync file..."
 zsyncmake *.AppImage -u *.AppImage
 zsyncmake *.AppBundle -u *.AppBundle
 
-mv ./*.AppBundle* ./*.AppImage* ../
-cd ..
-rm -rf ./"$PACKAGE"
 echo "All Done!"
