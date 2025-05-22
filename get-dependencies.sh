@@ -49,6 +49,7 @@ pacman -Syu --noconfirm \
 	pulseaudio-alsa \
 	strace \
 	vulkan-intel \
+	vulkan-mesa-layers \
 	vulkan-nouveau \
 	vulkan-radeon \
 	wayland \
