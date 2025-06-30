@@ -88,6 +88,9 @@ ln -s ./bin/chrome ./AppRun
 # Fix for broken video hardware accel
 echo 'LIBVA_DRIVERS_PATH=${SHARUN_DIR}/shared/lib' >> ./.env
 
+# Intel video drivers are still in lib/dri instead lib
+( cd ./shared/lib && ln -s ./dri/* ./ )
+
 # MAKE APPIMAGE WITH URUNTIME
 cd ..
 wget -q "$URUNTIME" -O ./uruntime
