@@ -19,3 +19,7 @@ This appimage works without fuse2 as it can use fuse3 instead, it can also work 
     <img src="https://github.com/user-attachments/assets/d40067a6-37d2-4784-927c-2c7f7cc6104b" alt="Inspiration Image">
   </a>
 </details>
+
+---
+
+More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/) 
