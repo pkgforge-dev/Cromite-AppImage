@@ -27,6 +27,22 @@ This appimage works without fuse2 as it can use fuse3 instead, it can also work 
   </a>
 </details>
 
+More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/)
+
 ---
 
-More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/) 
+# Why should I use this? 
+
+AppImage doesn't have security issues that break the internal sandbox of web-browsers. [1](https://librewolf.net/installation/linux/#security) [2](https://seirdy.one/notes/2022/06/12/flatpak-and-web-browsers/) [3](https://github.com/uazo/cromite/issues/1053#issuecomment-2191794660)
+
+**You should be aware that distros like Universal Blue don't care about the security of its users and tell people that only flatpak is supported despite being aware of the security issue.**
+
+* https://github.com/ublue-os/bluefin/issues/2792
+
+<details>
+  <summary><b>They even REMOVE comments that suggest using AppImage to fix that issue.</b></summary>
+  <img width="933" height="666" alt="image" src="https://github.com/user-attachments/assets/de2bbfe4-b38e-4c0a-9e29-28753e753990" />
+  <img width="476" height="62" alt="image" src="https://github.com/user-attachments/assets/ce23ab52-1d7f-4745-ba5b-fc68c45f003b" />
+  <img width="927" height="760" alt="image" src="https://github.com/user-attachments/assets/12e08cb3-3d55-4f8e-b5aa-39ced8775c00" />
+  </a>
+</details>
