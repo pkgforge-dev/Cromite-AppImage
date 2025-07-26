@@ -85,9 +85,6 @@ echo "Preparing sharun..."
 ln -s ./bin/chrome ./AppRun
 ./sharun -g
 
-# Fix for broken video hardware accel
-echo 'LIBVA_DRIVERS_PATH=${SHARUN_DIR}/shared/lib:${SHARUN_DIR}/shared/lib/dri' >> ./.env
-
 # MAKE APPIMAGE WITH URUNTIME
 cd ..
 wget -q "$URUNTIME" -O ./uruntime
