@@ -61,7 +61,7 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/qt6/plugins/styles/*            \
 	/usr/lib/qt6/plugins/xcbglintegrations/* \
 	/usr/lib/qt6/plugins/wayland-*/*         \
-	/usr/lib/gio/modules/*                   \
+	/usr/lib/gio/modules/libdconfsettings.so \
 	/usr/lib/pulseaudio/*                    \
 	/usr/lib/alsa-lib/*
 
