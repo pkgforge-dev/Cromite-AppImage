@@ -33,28 +33,36 @@ wget --retry-connrefused --tries=30 "$LIB4BIN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 ./lib4bin -p -v -s -k ./bin/chrome_* \
-	/usr/lib/lib*GL* \
-	/usr/lib/libvulkan* \
-	/usr/lib/libVkLayer* \
-	/usr/lib/dri/* \
-	/usr/lib/vdpau/* \
-	/usr/lib/libxcb-* \
-	/usr/lib/libelogind.so* \
-	/usr/lib/libwayland* \
-	/usr/lib/libnss* \
-	/usr/lib/libsoftokn3.so \
-	/usr/lib/libfreeblpriv3.so \
-	/usr/lib/libgtk* \
-	/usr/lib/libgdk* \
-	/usr/lib/gdk-pixbuf-*/*/loaders/* \
-	/usr/lib/libcloudproviders* \
-	/usr/lib/libXcursor.so.1 \
-	/usr/lib/libXinerama* \
-	/usr/lib/gconv/* \
-	/usr/lib/pkcs11/* \
-	/usr/lib/gvfs/* \
-	/usr/lib/gio/modules/* \
-	/usr/lib/pulseaudio/* \
+	/usr/lib/libGLX*                         \
+	/usr/lib/libEGL*                         \
+	/usr/lib/libOpenGL.so*                   \
+	/usr/lib/libvulkan*                      \
+	/usr/lib/libVkLayer*                     \
+	/usr/lib/dri/*                           \
+	/usr/lib/vdpau/*                         \
+	/usr/lib/libxcb-*                        \
+	/usr/lib/libelogind.so*                  \
+	/usr/lib/libwayland*                     \
+	/usr/lib/libnss*                         \
+	/usr/lib/libsoftokn3.so                  \
+	/usr/lib/libfreeblpriv3.so               \
+	/usr/lib/libgtk*                         \
+	/usr/lib/libgdk*                         \
+	/usr/lib/gdk-pixbuf-*/*/loaders/*        \
+	/usr/lib/libcloudproviders*              \
+	/usr/lib/libXcursor.so.1                 \
+	/usr/lib/libXinerama*                    \
+	/usr/lib/gconv/*                         \
+	/usr/lib/pkcs11/*                        \
+	/usr/lib/gvfs/*                          \
+	/usr/lib/qt6/plugins/imageformats/*      \
+	/usr/lib/qt6/plugins/iconengines/*       \
+	/usr/lib/qt6/plugins/platform*/*         \
+	/usr/lib/qt6/plugins/styles/*            \
+	/usr/lib/qt6/plugins/xcbglintegrations/* \
+	/usr/lib/qt6/plugins/wayland-*/*         \
+	/usr/lib/gio/modules/*                   \
+	/usr/lib/pulseaudio/*                    \
 	/usr/lib/alsa-lib/*
 
 # strip cromite bundled libs
