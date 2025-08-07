@@ -65,6 +65,12 @@ xvfb-run -a -- ./lib4bin -p -v -s -e -k ./bin/chrome -- google.com --no-sandbox
 	/usr/lib/pulseaudio/*                    \
 	/usr/lib/alsa-lib/*
 
+# we need to remove this because chrome will dlopen libQt5Core on the host if it is present
+# so the qt.conf file will cause libqt5core to try the Qt6 plugins we ship, making it fail
+# thankfully archlinux builds Qt6 relocatable so it still works without this file or QT_PLUGIN_PATH
+rm -f ./bin/qt.conf
+echo 'unset QT_PLUGIN_PATH' > ./.env
+
 # strip cromite bundled libs
 strip -s -R .comment --strip-unneeded ./bin/lib*
 
