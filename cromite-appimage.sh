@@ -20,6 +20,7 @@ URUNTIME="https://github.com/VHSgunzo/uruntime/releases/latest/download/uruntime
 
 # Prepare AppDir
 mkdir -p ./AppDir
+cp -v ./detect-nonsense.sh ./AppDir
 cd ./AppDir
 
 wget --retry-connrefused --tries=30 "$CROMITE_URL"
@@ -82,8 +83,15 @@ ln -s ./"$PACKAGE".png ./.DirIcon
 
 # Prepare sharun
 echo "Preparing sharun..."
-ln -s ./bin/chrome ./AppRun
 ./sharun -g
+
+echo '#!/bin/sh
+CURRENTDIR="$(cd "${0%/*}" && echo "$PWD")"
+# check if we namespaces restriction from ubuntu before starting cromite
+"$CURRENTDIR"/detect-nonsense.sh
+exec "$CURRENTDIR"/bin/chrome "$@"
+' > ./AppRun
+chmod +x ./AppRun ./detect-nonsense.sh
 
 # MAKE APPIMAGE WITH URUNTIME
 cd ..
