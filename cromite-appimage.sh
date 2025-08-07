@@ -90,7 +90,7 @@ CURRENTDIR="$(cd "${0%/*}" && echo "$PWD")"
 # check if we namespaces restriction from ubuntu before starting cromite
 "$CURRENTDIR"/detect-nonsense.sh
 exec "$CURRENTDIR"/bin/chrome "$@"
-'
+' > ./AppRun
 chmod +x ./AppRun ./detect-nonsense.sh
 
 # MAKE APPIMAGE WITH URUNTIME
