@@ -28,6 +28,8 @@ pacman -Syu --noconfirm \
 	patchelf \
 	pipewire-audio \
 	pulseaudio-alsa \
+	qt6-base \
+	qt6-wayland \
 	strace \
 	vulkan-intel \
 	vulkan-mesa-layers \
