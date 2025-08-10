@@ -43,12 +43,16 @@ Type=Application
 Categories=Application;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;' > ./AppDir/"$PACKAGE".desktop
 
+# we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
+rm -f ./AppDir/bin/libqt5_shim.so
+
 # strip cromite bundled libs
 strip -s -R .comment --strip-unneeded ./AppDir/bin/lib*.so*
 
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
+export DST_DIR="$PWD"/AppDir
 ./quick-sharun l -p -v -s -e -k ./AppDir/bin/chrome -- google.com --no-sandbox
 DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 	DEPLOY_PIPEWIRE=1 DEPLOY_QT=1 \
@@ -63,12 +67,6 @@ DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 
 # Weird
 ln -s ../bin/chrome ./AppDir/shared/bin/exe
-
-# we need to remove this because chrome will dlopen libQt5Core on the host if it is present
-# so the qt.conf file will cause libqt5core to try the Qt6 plugins we ship, making it fail
-# thankfully archlinux builds Qt6 relocatable so it still works without this file or QT_PLUGIN_PATH
-rm -f ./AppDir/bin/qt.conf
-echo 'unset QT_PLUGIN_PATH' > ./AppDir/.env
 
 # get AppRun and fix ubuntu nonsense hook
 wget --retry-connrefused --tries=30 "$APPRUN" -O ./AppDir/AppRun
