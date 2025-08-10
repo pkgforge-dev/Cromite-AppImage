@@ -9,6 +9,8 @@ URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
 APPRUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/AppRun-generic"
 NHOOK="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/fix-namespaces.hook"
+UPDATER="https://github.com/pkgforge-dev/AppImageUpdate-Enhanced-Edition/releases/latest/download/appimageupdatetool+validate-$ARCH.AppImage"
+UPHOOK="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/self-updater.bg.hook"
 
 CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 	https://api.github.com/repos/uazo/cromite/releases -O - \
@@ -68,10 +70,12 @@ DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 # Weird
 ln -s ../bin/chrome ./AppDir/shared/bin/exe
 
-# get AppRun and fix ubuntu nonsense hook
-wget --retry-connrefused --tries=30 "$APPRUN" -O ./AppDir/AppRun
-wget --retry-connrefused --tries=30 "$NHOOK" -O ./AppDir/bin/fix-namespaces.hook
-chmod +x ./AppDir/AppRun ./AppDir/bin/fix-namespaces.hook
+# get AppRun, fix ubuntu nonsense hook, and self update hook with appimageupdatetool
+wget --retry-connrefused --tries=30 "$APPRUN"  -O ./AppDir/AppRun
+wget --retry-connrefused --tries=30 "$NHOOK"   -O ./AppDir/bin/fix-namespaces.hook
+wget --retry-connrefused --tries=30 "$UPHOOK"  -O ./AppDir/bin/self-updater.bg.hook
+wget --retry-connrefused --tries=30 "$UPDATER" -O ./AppDir/bin/appimageupdatool
+chmod +x ./AppDir/AppRun ./AppDir/bin/*.hook ./AppDir/bin/appimageupdatool
 
 # MAKE APPIMAGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
