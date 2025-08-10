@@ -28,6 +28,9 @@ tar xvf ./*.tar.*
 rm -f ./*.tar.*
 mv -v ./chrome-lin ./AppDir/bin
 
+# we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
+rm -f ./AppDir/bin/libqt5_shim.so
+
 wget --retry-connrefused --tries=30 "$ICON" -O ./AppDir/"$PACKAGE".png
 cp -v ./AppDir/"$PACKAGE".png ./AppDir/.DirIcon
 
@@ -63,12 +66,6 @@ DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 
 # Weird
 ln -s ../bin/chrome ./AppDir/shared/bin/exe
-
-# we need to remove this because chrome will dlopen libQt5Core on the host if it is present
-# so the qt.conf file will cause libqt5core to try the Qt6 plugins we ship, making it fail
-# thankfully archlinux builds Qt6 relocatable so it still works without this file or QT_PLUGIN_PATH
-rm -f ./AppDir/bin/qt.conf
-echo 'unset QT_PLUGIN_PATH' > ./AppDir/.env
 
 # get AppRun and fix ubuntu nonsense hook
 wget --retry-connrefused --tries=30 "$APPRUN" -O ./AppDir/AppRun
