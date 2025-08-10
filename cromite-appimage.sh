@@ -28,9 +28,6 @@ tar xvf ./*.tar.*
 rm -f ./*.tar.*
 mv -v ./chrome-lin ./AppDir/bin
 
-# we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
-rm -f ./AppDir/bin/libqt5_shim.so
-
 wget --retry-connrefused --tries=30 "$ICON" -O ./AppDir/"$PACKAGE".png
 cp -v ./AppDir/"$PACKAGE".png ./AppDir/.DirIcon
 
@@ -45,6 +42,9 @@ StartupWMClass=Chromium-browser
 Type=Application
 Categories=Application;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;' > ./AppDir/"$PACKAGE".desktop
+
+# we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
+rm -f ./AppDir/bin/libqt5_shim.so
 
 # strip cromite bundled libs
 strip -s -R .comment --strip-unneeded ./AppDir/bin/lib*.so*
