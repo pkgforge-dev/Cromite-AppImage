@@ -3,7 +3,6 @@
 set -eux
 
 ARCH="$(uname -m)"
-ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
 APPRUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/AppRun-generic"
@@ -28,21 +27,6 @@ wget --retry-connrefused --tries=30 "$CROMITE_URL"
 tar xvf ./*.tar.*
 rm -f ./*.tar.*
 mv -v ./chrome-lin ./AppDir/bin
-
-wget --retry-connrefused --tries=30 "$ICON" -O ./AppDir/Cromite.png
-cp -v ./AppDir/Cromite.png ./AppDir/.DirIcon
-
-echo '[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Name=Cromite
-Exec=chrome %U
-Terminal=false
-Icon=Cromite
-StartupWMClass=Chromium-browser
-Type=Application
-Categories=Application;Network;WebBrowser;
-MimeType=text/html;text/xml;application/xhtml_xml;' > ./AppDir/Cromite.desktop
 
 # we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
 rm -f ./AppDir/bin/libqt5_shim.so
