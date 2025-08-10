@@ -74,8 +74,8 @@ ln -s ../bin/chrome ./AppDir/shared/bin/exe
 wget --retry-connrefused --tries=30 "$APPRUN"  -O ./AppDir/AppRun
 wget --retry-connrefused --tries=30 "$NHOOK"   -O ./AppDir/bin/fix-namespaces.hook
 wget --retry-connrefused --tries=30 "$UPHOOK"  -O ./AppDir/bin/self-updater.bg.hook
-wget --retry-connrefused --tries=30 "$UPDATER" -O ./AppDir/bin/appimageupdatool
-chmod +x ./AppDir/AppRun ./AppDir/bin/*.hook ./AppDir/bin/appimageupdatool
+wget --retry-connrefused --tries=30 "$UPDATER" -O ./AppDir/bin/appimageupdatetool
+chmod +x ./AppDir/AppRun ./AppDir/bin/*.hook ./AppDir/bin/appimageupdatetool
 
 # MAKE APPIMAGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
