@@ -3,7 +3,6 @@
 set -eux
 
 ARCH="$(uname -m)"
-PACKAGE=Cromite
 ICON="https://github.com/pkgforge-dev/Cromite-AppImage/blob/main/Cromite.png?raw=true"
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
@@ -20,7 +19,7 @@ VERSION="$(echo "$CROMITE_URL" | awk -F'-|/' 'NR==1 {print $(NF-3)}')"
 [ -n "$VERSION" ] && echo "$VERSION" > ~/version
 
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
-export OUTNAME="$PACKAGE"-"$VERSION"-anylinux-"$ARCH".AppImage
+export OUTNAME=Cromite-"$VERSION"-anylinux-"$ARCH".AppImage
 export URUNTIME_PRELOAD=1 # really needed here
 
 # Prepare AppDir
@@ -30,20 +29,20 @@ tar xvf ./*.tar.*
 rm -f ./*.tar.*
 mv -v ./chrome-lin ./AppDir/bin
 
-wget --retry-connrefused --tries=30 "$ICON" -O ./AppDir/"$PACKAGE".png
-cp -v ./AppDir/"$PACKAGE".png ./AppDir/.DirIcon
+wget --retry-connrefused --tries=30 "$ICON" -O ./AppDir/Cromite.png
+cp -v ./AppDir/Cromite.png ./AppDir/.DirIcon
 
 echo '[Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-Name=$PACKAGE
+Name=Cromite
 Exec=chrome %U
 Terminal=false
-Icon=$PACKAGE
+Icon=Cromite
 StartupWMClass=Chromium-browser
 Type=Application
 Categories=Application;Network;WebBrowser;
-MimeType=text/html;text/xml;application/xhtml_xml;' > ./AppDir/"$PACKAGE".desktop
+MimeType=text/html;text/xml;application/xhtml_xml;' > ./AppDir/Cromite.desktop
 
 # we need to remove this because chrome otherwise dlopen libQt5Core on the host when present
 rm -f ./AppDir/bin/libqt5_shim.so
@@ -89,9 +88,9 @@ chmod +x ./pelf
 
 echo "Generating [dwfs]AppBundle...(Go runtime)"
 ./pelf --add-appdir ./AppDir \
-	--appbundle-id="$PACKAGE-$VERSION" \
+	--appbundle-id="Cromite-$VERSION" \
 	--compression "-C zstd:level=22 -S26 -B8" \
-	--output-to "$PACKAGE-$VERSION-anylinux-$ARCH.dwfs.AppBundle" \
+	--output-to "Cromite-$VERSION-anylinux-$ARCH.dwfs.AppBundle" \
 	--disable-use-random-workdir # speeds up launch time
 
 zsyncmake *.AppBundle -u *.AppBundle
