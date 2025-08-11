@@ -5,10 +5,7 @@ set -eux
 ARCH="$(uname -m)"
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
-APPRUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/AppRun-generic"
-NHOOK="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/fix-namespaces.hook"
 UPDATER="https://github.com/pkgforge-dev/AppImageUpdate-Enhanced-Edition/releases/latest/download/appimageupdatetool+validate-$ARCH.AppImage"
-UPHOOK="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/self-updater.bg.hook"
 
 CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 	https://api.github.com/repos/uazo/cromite/releases -O - \
@@ -17,6 +14,7 @@ CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 VERSION="$(echo "$CROMITE_URL" | awk -F'-|/' 'NR==1 {print $(NF-3)}')"
 [ -n "$VERSION" ] && echo "$VERSION" > ~/version
 
+export ADD_HOOKS="self-updater.bg.hook:fix-namespaces.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export OUTNAME=Cromite-"$VERSION"-anylinux-"$ARCH".AppImage
 export URUNTIME_PRELOAD=1 # really needed here
@@ -53,12 +51,9 @@ DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 # Weird
 ln -s ../bin/chrome ./AppDir/shared/bin/exe
 
-# get AppRun, fix ubuntu nonsense hook, and self update hook with appimageupdatetool
-wget --retry-connrefused --tries=30 "$APPRUN"  -O ./AppDir/AppRun
-wget --retry-connrefused --tries=30 "$NHOOK"   -O ./AppDir/bin/fix-namespaces.hook
-wget --retry-connrefused --tries=30 "$UPHOOK"  -O ./AppDir/bin/self-updater.bg.hook
+# bundled appimageupdatetool so that updater hook always works
 wget --retry-connrefused --tries=30 "$UPDATER" -O ./AppDir/bin/appimageupdatetool
-chmod +x ./AppDir/AppRun ./AppDir/bin/*.hook ./AppDir/bin/appimageupdatetool
+chmod +x ./AppDir/AppRun ./AppDir/bin/appimageupdatetool
 
 # MAKE APPIMAGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
