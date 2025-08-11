@@ -35,17 +35,16 @@ strip -s -R .comment --strip-unneeded ./AppDir/bin/lib*.so*
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
-export DST_DIR="$PWD"/AppDir
 ./quick-sharun l -p -v -s -e -k ./AppDir/bin/chrome -- google.com --no-sandbox
 DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 	DEPLOY_PIPEWIRE=1 DEPLOY_QT=1 \
-	./quick-sharun l -g -p -v -s -k  \
-	./AppDir/bin/chrome_*            \
-	/usr/lib/libelogind.so*          \
-	/usr/lib/libnss*                 \
-	/usr/lib/libsoftokn3.so          \
-	/usr/lib/libfreeblpriv3.so       \
-	/usr/lib/libcloudproviders*      \
+	./quick-sharun l -p -v -s -k  \
+	./AppDir/bin/chrome_*         \
+	/usr/lib/libelogind.so*       \
+	/usr/lib/libnss*              \
+	/usr/lib/libsoftokn3.so       \
+	/usr/lib/libfreeblpriv3.so    \
+	/usr/lib/libcloudproviders*   \
 	/usr/lib/pkcs11/*
 
 # Weird
