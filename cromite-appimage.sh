@@ -5,7 +5,6 @@ set -eux
 ARCH="$(uname -m)"
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
-UPDATER="https://github.com/pkgforge-dev/AppImageUpdate-Enhanced-Edition/releases/latest/download/appimageupdatetool+validate-$ARCH.AppImage"
 
 CROMITE_URL=$(wget -q --retry-connrefused --tries=30 \
 	https://api.github.com/repos/uazo/cromite/releases -O - \
@@ -49,10 +48,6 @@ DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
 
 # Weird
 ln -s ../bin/chrome ./AppDir/shared/bin/exe
-
-# bundled appimageupdatetool so that updater hook always works
-wget --retry-connrefused --tries=30 "$UPDATER" -O ./AppDir/bin/appimageupdatetool
-chmod +x ./AppDir/AppRun ./AppDir/bin/appimageupdatetool
 
 # MAKE APPIMAGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
