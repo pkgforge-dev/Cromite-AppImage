@@ -16,6 +16,10 @@ VERSION="$(echo "$CROMITE_URL" | awk -F'-|/' 'NR==1 {print $(NF-3)}')"
 export ADD_HOOKS="self-updater.bg.hook:fix-namespaces.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export OUTNAME=Cromite-"$VERSION"-anylinux-"$ARCH".AppImage
+export DEPLOY_OPENGL=1
+export DEPLOY_VULKAN=1
+export DEPLOY_PIPEWIRE=1
+export DEPLOY_QT=1
 export URUNTIME_PRELOAD=1 # really needed here
 
 # Prepare AppDir
@@ -34,10 +38,8 @@ strip -s -R .comment --strip-unneeded ./AppDir/bin/lib*.so*
 # DEPLOY ALL LIBS
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
-./quick-sharun l -p -v -s -e -k ./AppDir/bin/chrome -- google.com --no-sandbox
-DEPLOY_OPENGL=1 DEPLOY_VULKAN=1 \
-	DEPLOY_PIPEWIRE=1 DEPLOY_QT=1 \
-	./quick-sharun l -p -v -s -k  \
+./quick-sharun ./AppDir/bin/chrome -- google.com --no-sandbox
+./quick-sharun                    \
 	./AppDir/bin/chrome_*         \
 	/usr/lib/libelogind.so*       \
 	/usr/lib/libnss*              \
