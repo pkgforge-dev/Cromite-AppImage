@@ -16,6 +16,7 @@ pacman -Syu --noconfirm \
 	libheif             \
 	libjxl              \
 	libsm               \
+	librsvg             \
 	libtiff             \
 	libxcb              \
 	nss                 \
