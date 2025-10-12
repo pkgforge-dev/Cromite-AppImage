@@ -41,6 +41,7 @@ chmod +x ./quick-sharun
 ./quick-sharun ./AppDir/bin/chrome -- google.com --no-sandbox
 ./quick-sharun                    \
 	./AppDir/bin/chrome_*         \
+	./AppDir/bin/libqt6_shim.so*  \
 	/usr/lib/libQt6Widgets.so*    \
 	/usr/lib/libelogind.so*       \
 	/usr/lib/libnss*              \
