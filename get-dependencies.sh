@@ -1,6 +1,8 @@
 #!/bin/sh
 
-set -ex
+set -eu
+
+ARCH="$(uname -m)"
 EXTRA_PACKAGES="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/get-debloated-pkgs.sh"
 
 echo "Installing dependencies..."
@@ -30,6 +32,10 @@ pacman -Syu --noconfirm \
 	xcb-util-wm         \
 	xorg-server-xvfb    \
 	zsync
+
+if [ "$ARCH" = 'x86_64' ]; then
+		pacman -Syu --noconfirm libva-intel-driver
+fi
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
