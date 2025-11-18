@@ -13,11 +13,11 @@ AppImage made using [sharun](https://github.com/VHSgunzo/sharun), which makes it
 
 It is possible that this appimage may fail to work with appimagelauncher, I recommend these alternatives instead: 
 
-* [AM](https://github.com/ivan-hc/AM) `am -i citron` or `appman -i citron`
+* [AM](https://github.com/ivan-hc/AM) `am -i cromite` or `appman -i cromite`
 
-* [dbin](https://github.com/xplshn/dbin) `dbin install citron.appimage`
+* [dbin](https://github.com/xplshn/dbin) `dbin install cromite.appimage`
 
-* [soar](https://github.com/pkgforge/soar) `soar install citron`
+* [soar](https://github.com/pkgforge/soar) `soar install cromite`
 
 This appimage works without fuse2 as it can use fuse3 instead, it can also work without fuse at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
 
