@@ -20,6 +20,8 @@ export DEPLOY_OPENGL=1
 export DEPLOY_VULKAN=1
 export DEPLOY_PIPEWIRE=1
 export DEPLOY_QT=1
+export DEPLOY_GTK=1
+export GTK_DIR=gtk-3.0
 export URUNTIME_PRELOAD=1 # really needed here
 
 # Prepare AppDir
