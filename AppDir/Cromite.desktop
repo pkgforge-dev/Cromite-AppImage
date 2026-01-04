@@ -9,6 +9,7 @@ StartupWMClass=Chromium-browser
 Type=Application
 Categories=Application;Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;
+Actions=new-window;new-private-window
 
 [Desktop Action new-window]
 Name=Open a New Window
