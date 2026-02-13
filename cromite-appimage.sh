@@ -45,7 +45,6 @@ chmod +x ./quick-sharun
 	./AppDir/bin/chrome_*         \
 	./AppDir/bin/libqt6_shim.so*  \
 	/usr/lib/libQt6Widgets.so*    \
-	/usr/lib/libelogind.so*       \
 	/usr/lib/libnss*              \
 	/usr/lib/libsoftokn3.so       \
 	/usr/lib/libfreeblpriv3.so    \
