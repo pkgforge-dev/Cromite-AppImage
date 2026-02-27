@@ -43,12 +43,19 @@ get-debloated-pkgs --add-common --prefer-nano intel-media-driver-mini ffmpeg-min
 # Comment this out if you need an AUR package
 #make-aur-package PACKAGENAME
 
-# If the application needs to be manually built that has to be done down here
+echo "Getting binary..."
+echo "---------------------------------------------------------------"
+CROMITE_URL=$(wget https://api.github.com/repos/uazo/cromite/releases -O - \
+	| sed 's/[()",{} ]/\n/g' | grep -oi -m 1 "https.*-lin64.tar.gz$")
+	
+mkdir -p ./AppDir/bin
+wget --retry-connrefused --tries=30 "$CROMITE_URL"
+tar xvf ./*.tar.*
+rm -f ./*.tar.*
+mv -v ./chrome-lin/* ./AppDir/bin
 
-# if you also have to make nightly releases check for DEVEL_RELEASE = 1
-#
-# if [ "${DEVEL_RELEASE-}" = 1 ]; then
-# 	nightly build steps
-# else
-# 	regular build steps
-# fi
+# we need to remove this because chrome otherwise dlopen libQt5Core on the host
+# when present, we can only bunle libqt6 or libqt5 but not both
+rm -f ./AppDir/bin/libqt5_shim.so
+
+echo "$CROMITE_URL" | awk -F'-|/' 'NR==1 {print $(NF-3)}' > ~/version
