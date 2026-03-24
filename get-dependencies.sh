@@ -7,29 +7,23 @@ ARCH=$(uname -m)
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
 pacman -Syu --noconfirm \
-	base-devel          \
-	curl                \
 	flac                \
-	git                 \
 	glu                 \
 	gvfs                \
 	libepoxy            \
 	libheif             \
-	libjxl              \
 	libsm               \
 	librsvg             \
 	libtiff             \
-	libxcb              \
 	nss                 \
 	pipewire-audio      \
+	pipewire-jack       \
 	pulseaudio-alsa     \
-	qt6-wayland         \
 	vulkan-mesa-layers  \
 	wget                \
 	xcb-util-cursor     \
 	xcb-util-keysyms    \
 	xcb-util-wm         \
-	xorg-server-xvfb    \
 	zsync
 
 if [ "$ARCH" = 'x86_64' ]; then
